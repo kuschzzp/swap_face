@@ -3,7 +3,7 @@
 Standalone Roop Processor (兼容 Python 3.12)
 包含所有核心处理逻辑的独立文件
 """
-
+import fix_torchvision 
 import os
 import shutil
 import sys
