@@ -7,6 +7,8 @@
 
 下面是github开发环境运行
 
+> 本地运行没试过，需要 python 3.12+ ，低版本没试过，但我猜肯定不支持。
+
 ---
 
 代码使用 GitHub codespace开发，环境也是GitHub codespace 的环境。
@@ -54,3 +56,8 @@ cd codes
 ```shell 
 python roop_processor.py 
 ```
+
+---
+
+
+
