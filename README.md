@@ -1,4 +1,14 @@
 
+**使用 colab 在线运行**
+
+[点这里跳转](https://colab.research.google.com/github/kuschzzp/swap_face/blob/main/py312_swapface.ipynb)
+
+---
+
+下面是github开发环境运行
+
+---
+
 代码使用 GitHub codespace开发，环境也是GitHub codespace 的环境。
 
 https://github.com/codespaces/  
