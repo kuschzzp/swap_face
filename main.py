@@ -10,7 +10,7 @@ def main():
         target_path='./target.jpg',
         output_path='./target_sssssss.jpg',
         frame_processors=['face_swapper', 'face_enhancer'],
-        execution_provider='CPUExecutionProvider',
+        execution_provider="CoreMLExecutionProvider", #'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
         keep_fps=True,
         many_faces=True,
         skip_audio=False,
@@ -34,7 +34,7 @@ def batch_main():
         target_path='./testFiles',     # 包含待处理图像/视频的文件夹
         output_path='./testFilesOutputs',    # 输出文件夹
         frame_processors=['face_swapper', 'face_enhancer'],
-        execution_provider='CPUExecutionProvider',
+        execution_provider='CPUExecutionProvider',  #'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
         keep_fps=True,
         many_faces=True,
         skip_audio=False,
@@ -52,7 +52,7 @@ def batch_main():
 
 if __name__ == '__main__':
     # 运行单个文件处理示例
-    # main()
+    main()
     
     # 运行批量处理示例
-    batch_main()
+    # batch_main()

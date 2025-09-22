@@ -30,7 +30,7 @@ def run_processor(
         target_path: str,
         output_path: str,
         frame_processors: List[str] = None,
-        execution_provider: str = 'cpu',
+        execution_provider: str = 'CPUExecutionProvider',
         keep_fps: bool = True,
         many_faces: bool = False,
         skip_audio: bool = False,
@@ -47,7 +47,7 @@ def run_processor(
         target_path (str): 目标图像/视频路径（提供要被换脸的面部）
         output_path (str): 输出路径
         frame_processors (List[str]): 帧处理器列表，默认为['face_swapper']
-        execution_provider (str): 执行提供者，默认为'cpu'
+        execution_provider (str): 执行提供者，默认为'CPUExecutionProvider'
         keep_fps (bool): 是否保持原视频帧率，默认为True
         many_faces (bool): 是否处理多个人脸，默认为False
         skip_audio (bool): 是否跳过音频处理，默认为False
@@ -68,6 +68,7 @@ def run_processor(
     # 处理执行提供者名称（兼容不同格式）
     globals.execution_providers = [execution_provider] if not execution_provider.endswith('ExecutionProvider') else [
         execution_provider]
+    print("运行时设置的值 globals.execution_providers ===> " + str(globals.execution_providers))
     globals.keep_fps = keep_fps
     globals.many_faces = many_faces
     globals.skip_audio = skip_audio
@@ -171,7 +172,7 @@ def batch_run_processor(
         target_path: str,
         output_path: str,
         frame_processors: List[str] = None,
-        execution_provider: str = 'cpu',
+        execution_provider: str = 'CPUExecutionProvider',
         keep_fps: bool = True,
         many_faces: bool = False,
         skip_audio: bool = False,
@@ -189,7 +190,7 @@ def batch_run_processor(
         target_path (str): 目标文件夹路径（包含要被换脸的图像/视频）
         output_path (str): 输出文件夹路径
         frame_processors (List[str]): 帧处理器列表，默认为['face_swapper']
-        execution_provider (str): 执行提供者，默认为'cpu'
+        execution_provider (str): 执行提供者，默认为'CPUExecutionProvider'
         keep_fps (bool): 是否保持原视频帧率，默认为True
         many_faces (bool): 是否处理多个人脸，默认为False
         skip_audio (bool): 是否跳过音频处理，默认为False

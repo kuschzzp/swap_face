@@ -51,6 +51,14 @@ def clear_face_analyser() -> Any:
     """
     global FACE_ANALYSER
 
+    if FACE_ANALYSER is not None:
+        # 如果模型对象有清理方法，调用它
+        if hasattr(FACE_ANALYSER, 'destroy'):
+            FACE_ANALYSER.destroy()
+        # 或者如果有会话对象，关闭会话
+        if hasattr(FACE_ANALYSER, 'session'):
+            FACE_ANALYSER.session = None
+
     FACE_ANALYSER = None
 
 

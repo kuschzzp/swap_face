@@ -36,5 +36,11 @@ def clear_face_reference() -> None:
     将全局的参考人脸变量重置为None，释放相关资源
     """
     global FACE_REFERENCE
-
+    if FACE_REFERENCE is not None:
+        # 如果模型对象有清理方法，调用它
+        if hasattr(FACE_REFERENCE, 'destroy'):
+            FACE_REFERENCE.destroy()
+        # 或者如果有会话对象，关闭会话
+        if hasattr(FACE_REFERENCE, 'session'):
+            FACE_REFERENCE.session = None
     FACE_REFERENCE = None

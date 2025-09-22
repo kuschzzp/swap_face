@@ -68,6 +68,13 @@ def clear_face_swapper() -> None:
     清除面部交换器实例，释放资源
     """
     global FACE_SWAPPER
+    if FACE_SWAPPER is not None:
+        # 如果模型对象有清理方法，调用它
+        if hasattr(FACE_SWAPPER, 'destroy'):
+            FACE_SWAPPER.destroy()
+        # 或者如果有会话对象，关闭会话
+        if hasattr(FACE_SWAPPER, 'session'):
+            FACE_SWAPPER.session = None
     FACE_SWAPPER = None
 
 
@@ -76,6 +83,13 @@ def clear_face_enhancer() -> None:
     清除面部增强器实例，释放资源
     """
     global FACE_ENHANCER
+    if FACE_ENHANCER is not None:
+        # 如果模型对象有清理方法，调用它
+        if hasattr(FACE_ENHANCER, 'destroy'):
+            FACE_ENHANCER.destroy()
+        # 或者如果有会话对象，关闭会话
+        if hasattr(FACE_ENHANCER, 'session'):
+            FACE_ENHANCER.session = None
     FACE_ENHANCER = None
 
 
@@ -297,7 +311,8 @@ def get_face_enhancer() -> Any:
                 from gfpgan import GFPGANer
                 model_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models/GFPGANv1.4.pth')
                 # 初始化GFPGAN模型
-                FACE_ENHANCER = GFPGANer(model_path=model_path, upscale=1, device=get_device())
+                # FACE_ENHANCER = GFPGANer(model_path=model_path, upscale=1, device=get_device())
+                FACE_ENHANCER = GFPGANer(model_path=model_path, upscale=1) # 设备源码内部会自动判断用不用GPU
             except ImportError as e:
                 FACE_ENHANCER = None
                 raise e
