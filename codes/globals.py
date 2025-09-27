@@ -34,7 +34,5 @@ output_video_quality: Optional[int] = None
 max_memory: Optional[int] = None
 # 执行提供者列表（如CPUExecutionProvider、CUDAExecutionProvider等）
 execution_providers: List[str] = []
-# 执行线程数
-execution_threads: Optional[int] = None
 # ffmpeg日志级别（默认为info级别）
 log_level: str = 'info'

@@ -1,3 +1,5 @@
+from codes.face_reference import clear_face_reference
+from codes.models import clear_face_swapper, clear_face_enhancer
 from codes.swap_face_processor import run_processor, batch_run_processor
 
 
@@ -10,7 +12,7 @@ def main():
         target_path='./target.jpg',
         output_path='./target_sssssss.jpg',
         frame_processors=['face_swapper', 'face_enhancer'],
-        execution_provider="CoreMLExecutionProvider", #'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
+        execution_provider="CPUExecutionProvider", # 'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
         keep_fps=True,
         many_faces=True,
         skip_audio=False,
@@ -18,7 +20,10 @@ def main():
         similar_face_distance=0.85,
         max_frame_threads=4  # 视频帧处理的最大线程数
     )
-
+    # 清理资源
+    clear_face_swapper()
+    clear_face_enhancer()
+    clear_face_reference()
     if success:
         print("处理完成!")
     else:
@@ -34,14 +39,15 @@ def batch_main():
         target_path='./testFiles',     # 包含待处理图像/视频的文件夹
         output_path='./testFilesOutputs',    # 输出文件夹
         frame_processors=['face_swapper', 'face_enhancer'],
-        execution_provider='CPUExecutionProvider',  #'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
+        execution_provider='CoreMLExecutionProvider',
+        # 'CUDAExecutionProvider', 'CPUExecutionProvider' ,CoreMLExecutionProvider
         keep_fps=True,
         many_faces=True,
         skip_audio=False,
         reference_face_position=0,
         similar_face_distance=0.85,
-        max_threads=4,                    # 批量处理的最大并发线程数
-        max_frame_threads=4               # 视频帧处理的最大线程数
+        max_threads=4,  # 批量处理的最大并发线程数
+        max_frame_threads=8  # 视频帧处理的最大线程数
     )
 
     if success:
@@ -52,7 +58,7 @@ def batch_main():
 
 if __name__ == '__main__':
     # 运行单个文件处理示例
-    main()
-    
+    # main()
+
     # 运行批量处理示例
-    # batch_main()
+    batch_main()

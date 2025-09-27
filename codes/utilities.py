@@ -38,7 +38,8 @@ def run_ffmpeg(args: List[str]) -> bool:
     try:
         subprocess.check_output(commands, stderr=subprocess.STDOUT)
         return True
-    except Exception:
+    except Exception as  e:
+        print(f'ffmpeg 处理异常 {str(e)}')
         pass
     return False
 
@@ -58,7 +59,8 @@ def detect_fps(target_path: str) -> float:
     try:
         numerator, denominator = map(int, output)
         return numerator / denominator
-    except Exception:
+    except Exception as e:
+        print(f'ffprobe 处理异常 {target_path}: {str(e)}')
         pass
     return 30
 
@@ -170,6 +172,7 @@ def create_temp(target_path: str) -> None:
         target_path (str): 目标文件路径
     """
     temp_directory_path = get_temp_directory_path(target_path)
+    print(f'创建临时目录......{temp_directory_path}')
     Path(temp_directory_path).mkdir(parents=True, exist_ok=True)
 
 

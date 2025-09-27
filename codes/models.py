@@ -40,6 +40,7 @@ def get_face_swapper() -> Any:
             # 构建模型文件路径
             model_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models/inswapper_128.onnx')
             # 加载模型，使用全局定义的执行提供者（如CPU、GPU等）
+            print(f'get_face_swapper====> {globals.execution_providers}')
             FACE_SWAPPER = insightface.model_zoo.get_model(model_path, providers=globals.execution_providers)
     return FACE_SWAPPER
 
@@ -76,6 +77,7 @@ def clear_face_swapper() -> None:
         if hasattr(FACE_SWAPPER, 'session'):
             FACE_SWAPPER.session = None
     FACE_SWAPPER = None
+    print("clear_face_swapper")
 
 
 def clear_face_enhancer() -> None:
@@ -91,6 +93,7 @@ def clear_face_enhancer() -> None:
         if hasattr(FACE_ENHANCER, 'session'):
             FACE_ENHANCER.session = None
     FACE_ENHANCER = None
+    print("clear_face_enhancer")
 
 
 def swap_face(source_face: Any, target_face: Any, temp_frame: Any) -> Any:
@@ -141,7 +144,7 @@ def enhance_face(target_face: Any, temp_frame: Any) -> Any:
     if temp_face.size:
         # 使用信号量限制并发执行
         with THREAD_SEMAPHORE:
-            _, _, temp_face = face_enhancer.enhance(temp_face, paste_back=True)
+            restored_face, restored_img, temp_face = face_enhancer.enhance(temp_face, paste_back=True)
         # 将增强后的面部区域放回原图
         temp_frame[start_y:end_y, start_x:end_x] = temp_face
     return temp_frame

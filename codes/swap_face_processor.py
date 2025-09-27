@@ -94,21 +94,21 @@ def run_processor(
             # 处理图像
             process_image(source_path, output_path, output_path, globals.frame_processors)
             if is_image(output_path):
-                print('处理图像成功！')
+                print(f'图像成功处理到 {output_path}！')
                 return True
             else:
-                print('图像处理失败！')
+                print(f'图像处理失败，【预期到 {output_path}】！')
                 return False
 
         # 处理视频
-        print('创建临时视频处理资源......')
+        print(f'为{target_path}创建临时视频处理资源目录......')
         # 创建临时目录
         create_temp(target_path)
 
         # 提取帧图像
         if keep_fps:
             fps = detect_fps(target_path)
-            print(f'正在以 {fps} FPS 提取帧...')
+            print(f'通过检测视频帧率，正在以 {fps} FPS 提取帧...')
             extract_frames(target_path, fps)
         else:
             print('正在以 30 FPS 提取帧...')
@@ -127,7 +127,7 @@ def run_processor(
         # 合成视频
         if keep_fps:
             fps = detect_fps(target_path)
-            print(f'正在以 {fps} FPS 创建视频...')
+            print(f'通过检测视频帧率，正在以 {fps} FPS 创建视频...')
             create_video(target_path, fps)
         else:
             print('正在以 30 FPS 创建视频...')
@@ -160,12 +160,6 @@ def run_processor(
     except Exception as e:
         print(f'处理失败，错误信息：{str(e)}')
         return False
-    finally:
-        # 清理资源
-        clear_face_swapper()
-        clear_face_enhancer()
-        clear_face_reference()
-
 
 def batch_run_processor(
         source_path: str,
@@ -178,7 +172,7 @@ def batch_run_processor(
         skip_audio: bool = False,
         reference_face_position: int = 0,
         reference_frame_number: int = 0,
-        similar_face_distance: float = 0.85,
+        similar_face_distance: float = 0.80,
         max_threads: int = 4,
         max_frame_threads: int = 4
 ) -> bool:
@@ -272,13 +266,18 @@ def batch_run_processor(
                 result = future.result()
                 if result:
                     success_count += 1
-                    print(f'处理成功: {target_file}')
+                    print(f'处理 {target_file} 成功')
                 else:
                     failed_files.append(target_file)
-                    print(f'处理失败: {target_file}')
+                    print(f'处理 {target_file} 失败')
             except Exception as e:
                 failed_files.append(target_file)
                 print(f'处理异常 {target_file}: {str(e)}')
+    
+    # 在所有文件处理完成后统一清理模型资源
+    clear_face_swapper()
+    clear_face_enhancer()
+    clear_face_reference()
 
     print(f'批量处理完成: 成功 {success_count}/{len(target_files)} 个文件')
     if failed_files:
